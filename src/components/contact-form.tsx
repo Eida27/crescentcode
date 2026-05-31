@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useCallback, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { Send } from "lucide-react";
 import type { ContactActionState } from "@/lib/contact";
@@ -11,6 +11,8 @@ type ContactFormProps = {
     formData: FormData,
   ) => Promise<ContactActionState>;
 };
+
+type RefreshCompletion = (form?: HTMLFormElement | null) => void;
 
 const initialState: ContactActionState = {
   status: "idle",
@@ -25,11 +27,54 @@ const projectTypes = [
   "Not sure yet",
 ];
 
+const requiredContactFields = ["name", "email", "projectType", "message"];
+
+export function isContactFormComplete(formData: FormData) {
+  return requiredContactFields.every((fieldName) => {
+    const value = formData.get(fieldName);
+
+    return typeof value === "string" && value.trim().length > 0;
+  });
+}
+
+export function getSubmitCursorClass({
+  isComplete,
+  pending,
+}: {
+  isComplete: boolean;
+  pending: boolean;
+}) {
+  return isComplete && !pending ? "cursor-pointer" : "cursor-default";
+}
+
 export function ContactForm({ action }: ContactFormProps) {
   const [state, formAction] = useActionState(action, initialState);
+  const [isComplete, setIsComplete] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const refreshCompletion = useCallback<RefreshCompletion>(
+    (form: HTMLFormElement | null = formRef.current) => {
+      if (!form) {
+        return;
+      }
+
+      setIsComplete(isContactFormComplete(new FormData(form)));
+    },
+    [],
+  );
 
   return (
-    <form action={formAction} className="space-y-5" noValidate>
+    <form
+      ref={formRef}
+      action={formAction}
+      className="space-y-5"
+      noValidate
+      onInput={(event) => {
+        refreshCompletion(event.currentTarget);
+      }}
+      onChange={(event) => {
+        refreshCompletion(event.currentTarget);
+      }}
+    >
       <input
         className="hidden"
         name="website"
@@ -94,7 +139,10 @@ export function ContactForm({ action }: ContactFormProps) {
         <FieldError message={state.fieldErrors?.message?.[0]} />
       </label>
 
-      <SubmitButton />
+      <SubmitButton
+        isComplete={isComplete}
+        refreshCompletion={refreshCompletion}
+      />
 
       {state.message ? (
         <p
@@ -146,14 +194,23 @@ function FieldError({ message }: { message?: string }) {
   return <span className="mt-2 block text-sm text-amber-200">{message}</span>;
 }
 
-function SubmitButton() {
+function SubmitButton({
+  isComplete,
+  refreshCompletion,
+}: {
+  isComplete: boolean;
+  refreshCompletion: RefreshCompletion;
+}) {
   const { pending } = useFormStatus();
+  const cursorClass = getSubmitCursorClass({ isComplete, pending });
 
   return (
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-teal-300 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-teal-200 disabled:cursor-not-allowed disabled:bg-stone-500 sm:w-auto"
+      onFocus={() => refreshCompletion()}
+      onPointerEnter={() => refreshCompletion()}
+      className={`inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-teal-300 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-teal-200 disabled:cursor-not-allowed disabled:bg-stone-500 sm:w-auto ${cursorClass}`}
     >
       <Send aria-hidden="true" size={17} />
       {pending ? "Sending..." : "Send inquiry"}
