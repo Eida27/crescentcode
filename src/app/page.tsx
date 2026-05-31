@@ -106,7 +106,7 @@ export default function Home() {
               />
             </span>
             <span className="truncate text-sm font-semibold text-stone-50">
-              Endless Refinement
+              Crescent Code
             </span>
           </a>
 
