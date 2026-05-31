@@ -10,7 +10,6 @@ import {
   Palette,
   Rocket,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import { sendContactInquiry } from "@/app/actions";
 import { ContactForm } from "@/components/contact-form";
@@ -92,12 +91,22 @@ export default function Home() {
           className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-8"
           aria-label="Primary navigation"
         >
-          <a href="#top" className="flex items-center gap-3">
-            <span className="flex size-9 items-center justify-center rounded-md border border-teal-300/35 bg-teal-300/10 text-teal-100">
-              <Sparkles aria-hidden="true" size={18} />
+          <a
+            href="#top"
+            className="flex min-w-0 items-center gap-3"
+            aria-label="Endless Refinement home"
+          >
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-white/15 bg-stone-100 p-1.5 shadow-sm shadow-black/20">
+              <Image
+                src="/endless-refinement-logo.png"
+                alt=""
+                width={28}
+                height={28}
+                className="h-full w-full object-contain"
+              />
             </span>
-            <span className="text-sm font-semibold text-stone-50">
-              Crescent Code
+            <span className="truncate text-sm font-semibold text-stone-50">
+              Endless Refinement
             </span>
           </a>
 
