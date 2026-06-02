@@ -5,6 +5,7 @@ import {
   BriefcaseBusiness,
   CheckCircle2,
   Code2,
+  ExternalLink,
   LayoutTemplate,
   Mail,
   Palette,
@@ -16,6 +17,7 @@ import { ContactForm } from "@/components/contact-form";
 
 const navItems = [
   { label: "Services", href: "#services" },
+  { label: "Projects", href: "#projects" },
   { label: "Process", href: "#process" },
   { label: "Contact", href: "#contact" },
 ];
@@ -48,6 +50,26 @@ const skills = [
   "Business-focused copy structure",
   "Contact and lead flows",
   "Performance-minded builds",
+];
+
+const featuredProjects = [
+  {
+    title: "Planly Command Center",
+    caption: "Static SaaS dashboard prototype for content planning operations.",
+    description:
+      "A portfolio build that shows how a content team can move through priority queues, post planning, idea capture, analytics, campaigns, calendar scheduling, and workspace settings. It works as a static HTML/CSS/JavaScript prototype with client-side view navigation, demonstrating product flow and responsive dashboard design without a backend, database, or publishing integrations.",
+    imageSrc: "/planly-command-center.png",
+    imageAlt:
+      "Planly Command Center dashboard showing content metrics, a calendar, weekly queue, and content pipeline columns",
+    liveUrl: "https://eida27.github.io/L1011-Planly-Content-Planner",
+    repositoryUrl: "https://github.com/Eida27/L1011-Planly-Content-Planner.git",
+    tags: [
+      "Live demo",
+      "Static prototype",
+      "Client-side navigation",
+      "Dashboard UI",
+    ],
+  },
 ];
 
 const process = [
@@ -261,6 +283,87 @@ export default function Home() {
                 />
                 <span className="font-medium text-stone-100">{skill}</span>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" className="bg-[#0e1517] py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold text-teal-200">
+              Featured Project
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight text-stone-50 sm:text-5xl">
+              Proof of work from a real dashboard prototype.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-stone-300">
+              Recent portfolio work that shows product thinking, interface
+              structure, and responsive implementation beyond a single landing
+              page.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6">
+            {featuredProjects.map((project) => (
+              <article
+                key={project.title}
+                className="grid overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] lg:grid-cols-[1.1fr_0.9fr]"
+              >
+                <div className="relative min-h-72 border-b border-white/10 bg-stone-100 lg:min-h-[34rem] lg:border-b-0 lg:border-r">
+                  <Image
+                    src={project.imageSrc}
+                    alt={project.imageAlt}
+                    fill
+                    sizes="(min-width: 1024px) 58vw, 100vw"
+                    className="object-cover object-left-top"
+                  />
+                </div>
+
+                <div className="flex flex-col p-6 sm:p-8 lg:p-10">
+                  <p className="text-sm font-semibold text-amber-200">
+                    {project.caption}
+                  </p>
+                  <h3 className="mt-5 text-3xl font-semibold leading-tight text-stone-50 sm:text-4xl">
+                    {project.title}
+                  </h3>
+                  <p className="mt-5 leading-8 text-stone-300">
+                    {project.description}
+                  </p>
+
+                  <div className="mt-7 flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-md border border-white/10 bg-zinc-950/50 px-3 py-2 text-sm font-medium text-stone-200"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-teal-300 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-teal-200 sm:w-auto"
+                    >
+                      View live demo
+                      <ExternalLink aria-hidden="true" size={17} />
+                    </a>
+                    <a
+                      href={project.repositoryUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-md border border-white/18 bg-white/8 px-5 text-sm font-semibold text-stone-100 transition hover:border-amber-200/55 hover:bg-amber-200/10 sm:w-auto"
+                    >
+                      View repository
+                      <ExternalLink aria-hidden="true" size={17} />
+                    </a>
+                  </div>
+                </div>
+              </article>
             ))}
           </div>
         </div>
