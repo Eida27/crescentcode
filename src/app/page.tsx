@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { sendContactInquiry } from "@/app/actions";
 import { ContactForm } from "@/components/contact-form";
+import { SocialLinks } from "@/components/social-links";
 
 const navItems = [
   { label: "Services", href: "#services" },
@@ -110,7 +111,7 @@ export default function Home() {
     <main className="min-h-screen bg-zinc-950 text-stone-100">
       <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-zinc-950/72 backdrop-blur-xl">
         <nav
-          className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-8"
+          className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-5 sm:px-8"
           aria-label="Primary navigation"
         >
           <a
@@ -132,7 +133,7 @@ export default function Home() {
             </span>
           </a>
 
-          <div className="hidden items-center gap-7 text-sm text-stone-300 md:flex">
+          <div className="hidden min-w-0 flex-1 items-center justify-center gap-4 text-sm text-stone-300 md:flex lg:gap-7">
             {navItems.map((item) => (
               <a
                 key={item.href}
@@ -144,13 +145,16 @@ export default function Home() {
             ))}
           </div>
 
-          <a
-            href="#contact"
-            className="hidden h-10 items-center gap-2 rounded-md bg-stone-100 px-4 text-sm font-semibold text-zinc-950 transition hover:bg-teal-200 sm:inline-flex"
-          >
-            Start
-            <ArrowRight aria-hidden="true" size={16} />
-          </a>
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <SocialLinks className="hidden md:flex [&_a]:size-9 [&_svg]:size-5" />
+            <a
+              href="#contact"
+              className="hidden h-10 items-center gap-2 rounded-md bg-stone-100 px-4 text-sm font-semibold text-zinc-950 transition hover:bg-teal-200 sm:inline-flex"
+            >
+              Start
+              <ArrowRight aria-hidden="true" size={16} />
+            </a>
+          </div>
         </nav>
       </header>
 
@@ -444,6 +448,7 @@ export default function Home() {
               know. Submissions are prepared to send to
               anulabac30@gmail.com through the configured email provider.
             </p>
+            <SocialLinks className="mt-7" />
 
             <div className="mt-10 grid gap-4">
               {[

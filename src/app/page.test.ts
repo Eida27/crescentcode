@@ -28,3 +28,14 @@ describe("homepage featured projects", () => {
     expect(source).toContain("without a backend, database, or publishing integrations");
   });
 });
+
+describe("homepage social links", () => {
+  it("renders the reusable social links in the header and contact section", () => {
+    const source = readHomePageSource();
+
+    expect(source).toContain(
+      'import { SocialLinks } from "@/components/social-links";',
+    );
+    expect(source.match(/<SocialLinks/g)?.length ?? 0).toBe(2);
+  });
+});
